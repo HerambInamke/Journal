@@ -42,15 +42,14 @@ await page.waitForTimeout(2000);
 
 // Dump the HTML of the Email question block
 const emailBlockHtml = await page.evaluate(() => {
-  // Find element containing the word "email" in its text
-  const allDivs = Array.from(document.querySelectorAll('[role="listitem"], .Qr7Oae, .freebirdFormviewerViewItemsItemItem'));
-  for (const div of allDivs) {
-    if (div.textContent?.toLowerCase().includes('record') && div.textContent?.toLowerCase().includes('email')) {
-      return div.outerHTML.substring(0, 3000);
+  const allElements = Array.from(document.querySelectorAll('[role="listitem"], [role="region"], .Qr7Oae, .M7eMe, label, div'));
+  for (const el of allElements) {
+    const text = (el.textContent || '').toLowerCase();
+    if (text.includes('email') && (text.includes('record') || text.includes('switch account') || text.includes('shared'))) {
+      return el.outerHTML.substring(0, 3000);
     }
   }
-  // fallback — grab first 2000 chars of body
-  return document.body.innerHTML.substring(0, 2000);
+  return document.body.innerText.substring(0, 2000);
 });
 
 console.log('\n=== EMAIL BLOCK HTML ===\n');

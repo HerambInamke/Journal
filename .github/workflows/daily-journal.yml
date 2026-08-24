@@ -64,7 +64,7 @@ jobs:
         run: npm start
 
       - name: Save daily submission state to cache
-        if: always()
+        if: success()
         uses: actions/cache/save@v4
         with:
           path: .last_submission.json
