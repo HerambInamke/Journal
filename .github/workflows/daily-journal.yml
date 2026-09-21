@@ -34,7 +34,7 @@ jobs:
             echo "::error::STORAGE_STATE_BASE64 secret is missing or empty!"
             exit 1
           fi
-          node -e 'fs.writeFileSync("storageState.json", Buffer.from(process.env.STORAGE_STATE_BASE64.replace(/\s+/g, ""), "base64"))'
+          node -e 'require("fs").writeFileSync("storageState.json", Buffer.from(process.env.STORAGE_STATE_BASE64.replace(/\s+/g, ""), "base64"))'
           echo "storageState.json restored successfully."
 
       - name: Get current date in target timezone
